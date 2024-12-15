@@ -26,12 +26,12 @@ void menu() {
 
     if (std::cin.fail()) {
       std::cin.clear(); // clear the error flag
-      std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // discard invalid input
+      std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // descartar el input invalido
       std::cout << "Entrada no valida. Por favor, introduce un numero del 1 al 5." << std::endl;
       continue;
     }
 
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // clear the input buffer
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // limpiar el buffer de entrada
 
     try {
       switch (opcion) {
