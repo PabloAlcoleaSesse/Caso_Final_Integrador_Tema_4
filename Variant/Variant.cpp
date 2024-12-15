@@ -1,14 +1,19 @@
 //
 // Created by Pablo Alcolea Sesse on 7/12/24.
 //
+//
+// Created by Pablo Alcolea Sesse on 7/12/24.
+//
 
 #include "Variant.h"
 #include <iostream>
 #include <vector>
 #include <string>
 #include <map>
+#include <variant>
+#include <type_traits>
 #include "../json11/json11.hpp"
-
+#include <stdexcept>
 
 enum variant_type { Symbol, Number, List, Proc, Lambda, Cadena };
 
@@ -26,10 +31,20 @@ public:
     proc_type proc;
     Entorno* env;
 
+    // Add a variant type to hold different types of values
+    using Simbolo = std::string;
+    using Numero = double;
+    using Lista = std::vector<Variant>;
+    using Procedimiento = Variant(*)(const std::vector<Variant>&);
+
+    std::variant<Simbolo, Numero, Lista, Procedimiento> value;
+
     Variant(variant_type type = Symbol) : type(type), env(nullptr), proc(nullptr) {}
     Variant(variant_type type, const std::string& val) : type(type), val(val), env(nullptr), proc(nullptr) {}
     Variant(proc_type proc) : type(Proc), proc(proc), env(nullptr) {}
 
+    // Imprime el valor de la instancia
+    void imprimir() const;
     // Convierte la instancia a una cadena legible
     std::string to_string();
 
@@ -42,6 +57,25 @@ public:
     // Parsea un objeto json11::Json a un Variant
     static Variant parse_json(const json11::Json &job);
 };
+
+void Variant::imprimir() const {
+    std::visit([](const auto& val) {
+        using T = std::decay_t<decltype(val)>;
+        if constexpr (std::is_same_v<T, Simbolo>) {
+            std::cout << "Simbolo: " << val << std::endl;
+        } else if constexpr (std::is_same_v<T, Numero>) {
+            std::cout << "Numero: " << val << std::endl;
+        } else if constexpr (std::is_same_v<T, Lista>) {
+            std::cout << "Lista: [ ";
+            for (const auto& item : val) {
+                item.imprimir();
+            }
+            std::cout << "]" << std::endl;
+        } else if constexpr (std::is_same_v<T, Procedimiento>) {
+            std::cout << "Procedimiento: (puntero a funcion)" << std::endl;
+        }
+    }, value);
+}
 
 std::string Variant::to_string() {
     switch (type) {
