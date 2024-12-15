@@ -1,6 +1,6 @@
+https://github.com/PabloAlcoleaSesse/Caso_Final_Integrador_Tema_4.git
 
-
-Introducción
+## Introducción
 
 El proyecto VariantProject es una aplicación modular en C++ que combina múltiples componentes para realizar tareas como evaluación de expresiones matemáticas, manejo de estructuras de datos mediante variantes, procesamiento de archivos, y demostraciones de conversión JSON. Este documento describe cómo funciona el programa, las opciones del menú, el manejo de errores y las especificaciones técnicas de cada módulo.
 
@@ -20,7 +20,7 @@ T-4/Variant/variant.cpp y variant.h: Implementa una estructura de datos genéric
 
 T-4/prueba/prueba.cpp y prueba.h: Proporciona ejemplos y demostraciones del funcionamiento del módulo Variant.
 
-Dependencias
+## Dependencias
 
 json11: Biblioteca para manejo de JSON.
 
@@ -43,15 +43,15 @@ Esto generará un ejecutable llamado VariantProject en el directorio build.
 
 Uso del Programa
 
-Inicio
+## Inicio
 
 El programa comienza ejecutando la función principal en main.cpp, que invoca al menú principal definido en Menu/menu.cpp.
 
-Menú Principal
+### Menú Principal
 
 El menú principal permite al usuario acceder a diferentes funcionalidades del programa:
 
-Calculadora (TinyLisp):
+### Calculadora (TinyLisp):
 
 Ofrece una calculadora basada en notación postfija.
 
@@ -71,7 +71,7 @@ Ejemplo:
 5
 -> exit
 ```
-Carga de Archivos:
+### Carga de Archivos:
 
 Permite cargar y mostrar el contenido de archivos de texto.
 
@@ -89,7 +89,7 @@ Introduce el nombre del archivo: ejemplo.txt
 Contenido del archivo:
 (Mostrado en colores)
 ```
-Demostración de Variant:
+### Demostración de Variant:
 
 Crea diferentes variantes (átomos, listas, etc.).
 
@@ -107,9 +107,9 @@ Numero: 42
 Cadena: Hola Mundo
 Lista: [Simbolo: MiSimbolo, Numero: 42, Cadena: Hola Mundo]
 ```
-Módulos
+## Módulos
 
-Módulo calculartor
+### Módulo calculartor
 
 Función tokenize: Convierte una cadena de entrada en un vector de tokens.
 
@@ -119,7 +119,7 @@ Función calculadora: Punto de entrada para la calculadora interactiva.
 
 Control de errores: Maneja condiciones como divisiones por cero, valores insuficientes y operadores no válidos.
 
-Módulo labmain
+### Módulo labmain
 
 Función load_script: Carga el contenido de un archivo y lo muestra por consola.
 
@@ -127,13 +127,13 @@ Función load_script_V: Solicita al usuario la ruta del archivo e invoca load_sc
 
 Control de errores: Detecta excepciones al abrir o leer archivos.
 
-Módulo Variant
+### Módulo Variant
 
 Clase Variant: Maneja diferentes tipos de datos utilizando std::variant.
 
 Tipos soportados: Simbolos, Números, Listas, Procedimientos.
 
-Métodos destacados:
+### Métodos destacados:
 
 imprimir: Muestra el contenido de la variante.
 
@@ -145,13 +145,13 @@ from_json_string: Reconstruye una variante desde un JSON.
 
 Control de errores: Maneja excepciones durante la conversión JSON.
 
-Módulo prueba
+### Módulo prueba
 
 Proporciona ejemplos para probar las capacidades del módulo Variant.
 
 Demuestra todas las funcionalidades mediante llamadas a las funciones de la clase Variant.
 
-Manejo de Errores
+## Manejo de Errores
 
 El programa utiliza excepciones para manejar errores comunes:
 
