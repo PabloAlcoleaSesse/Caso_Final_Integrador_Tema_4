@@ -13,50 +13,11 @@
 #include <variant>
 #include <type_traits>
 #include "../json11/json11.hpp"
-#include <stdexcept>
 
-enum variant_type { Symbol, Number, List, Proc, Lambda, Cadena };
 
-struct Entorno {}; // Definición mínima del entorno
 
-class Variant {
-public:
-    typedef Variant(*proc_type)(const std::vector<Variant>&);
-    typedef std::vector<Variant>::const_iterator iter;
-    typedef std::map<std::string, Variant> map;
 
-    variant_type type;
-    std::string val;
-    std::vector<Variant> list;
-    proc_type proc;
-    Entorno* env;
 
-    // Add a variant type to hold different types of values
-    using Simbolo = std::string;
-    using Numero = double;
-    using Lista = std::vector<Variant>;
-    using Procedimiento = Variant(*)(const std::vector<Variant>&);
-
-    std::variant<Simbolo, Numero, Lista, Procedimiento> value;
-
-    Variant(variant_type type = Symbol) : type(type), env(nullptr), proc(nullptr) {}
-    Variant(variant_type type, const std::string& val) : type(type), val(val), env(nullptr), proc(nullptr) {}
-    Variant(proc_type proc) : type(Proc), proc(proc), env(nullptr) {}
-
-    // Imprime el valor de la instancia
-    void imprimir() const;
-    // Convierte la instancia a una cadena legible
-    std::string to_string();
-
-    // Convierte la instancia a una cadena JSON
-    std::string to_json_string();
-
-    // Crea una instancia de Variant desde una cadena JSON
-    static Variant from_json_string(std::string sjson);
-
-    // Parsea un objeto json11::Json a un Variant
-    static Variant parse_json(const json11::Json &job);
-};
 
 void Variant::imprimir() const {
     std::visit([](const auto& val) {
@@ -195,24 +156,4 @@ Variant Variant::parse_json(const json11::Json &job) {
     return v;
 }
 
-int main() {
-    // Ejemplo de uso
-    Variant sym(Symbol, "x");
-    Variant num(Number, "42");
-    Variant str(Cadena, "Hola");
-    Variant lst;
-    lst.type = List;
-    lst.list.push_back(sym);
-    lst.list.push_back(num);
-    lst.list.push_back(str);
 
-    std::cout << "to_string(): " << lst.to_string() << std::endl;
-
-    std::string json_repr = lst.to_json_string();
-    std::cout << "to_json_string(): " << json_repr << std::endl;
-
-    Variant parsed = Variant::from_json_string(json_repr);
-    std::cout << "Parsed from JSON: " << parsed.to_string() << std::endl;
-
-    return 0;
-}
